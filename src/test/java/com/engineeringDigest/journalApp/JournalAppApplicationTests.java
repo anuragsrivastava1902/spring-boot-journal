@@ -1,3 +1,4 @@
+//journal
 package com.engineeringDigest.journalApp;
 
 import org.junit.jupiter.api.Test;
