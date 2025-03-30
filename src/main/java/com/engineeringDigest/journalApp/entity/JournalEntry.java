@@ -1,35 +1,49 @@
 package com.engineeringDigest.journalApp.entity;
 
-import org.bson.types.ObjectId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
-
-@Document(collection = "journal_entries")
+@Entity
 public class JournalEntry {
 
+    //@Id
+   // private ObjectId id;
+
+
+
     @Id
-    private ObjectId id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String content;
     private String title;
-    private LocalDateTime date;
+//    private LocalDateTime date;
+//
+//    public LocalDateTime getDate() {
+//        return date;
+//    }
+//
+//    public void setDate(LocalDateTime date) {
+//        this.date = date;
+//    }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
+//    public ObjectId getId() {
+//        return id;
+//    }
+//
+//    public void setId(ObjectId id) {
+//        this.id = id;
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
+//    }
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getContent() {
