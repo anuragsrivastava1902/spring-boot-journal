@@ -1,8 +1,8 @@
 package com.engineeringDigest.journalApp.controller;
 
 import com.engineeringDigest.journalApp.entity.JournalEntry;
+import com.engineeringDigest.journalApp.entity.JournalEntryRequest;
 import com.engineeringDigest.journalApp.service.JournalEntryService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,10 +41,10 @@ public class JournalEntryControllerV2 {
 
 
     @PostMapping
-    public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry){
+    public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntryRequest request){
       //  myEntry.setDate(LocalDateTime.now());
         try {
-            journalEntryService.saveEntry(myEntry);
+            JournalEntry myEntry= journalEntryService.createEntry(request);
             return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

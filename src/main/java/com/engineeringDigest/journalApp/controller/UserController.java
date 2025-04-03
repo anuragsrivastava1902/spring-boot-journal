@@ -1,6 +1,7 @@
 package com.engineeringDigest.journalApp.controller;
 
-import com.engineeringDigest.journalApp.entity.UserEntity;
+import com.engineeringDigest.journalApp.entity.User;
+import com.engineeringDigest.journalApp.entity.User;
 import com.engineeringDigest.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,31 +24,31 @@ public class UserController {
 
     // Get all users
     @GetMapping
-    public ResponseEntity<List<UserEntity>> getAllUsers() {
-        List<UserEntity> users = userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     // Get a user by ID
     @GetMapping("/{id}")
-    public ResponseEntity<UserEntity> getUserById(@PathVariable Long id) {
-        Optional<UserEntity> user = userService.getUserById(id);
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        Optional<User> user = userService.getUserById(id);
         return user.map(u -> new ResponseEntity<>(u, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Create a new user
     @PostMapping
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userEntity) {
-        UserEntity createdUser = userService.createUser(userEntity);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     // Update an existing user
     @PutMapping("/{id}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestBody UserEntity userEntity) {
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         try {
-            UserEntity updatedUser = userService.updateUser(id, userEntity);
+            User updatedUser = userService.updateUser(id, user);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

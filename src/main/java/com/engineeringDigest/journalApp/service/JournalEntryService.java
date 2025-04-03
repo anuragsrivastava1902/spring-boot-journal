@@ -2,9 +2,10 @@ package com.engineeringDigest.journalApp.service;
 
 
 import com.engineeringDigest.journalApp.entity.JournalEntry;
+import com.engineeringDigest.journalApp.entity.JournalEntryRequest;
+import com.engineeringDigest.journalApp.entity.User;
 import com.engineeringDigest.journalApp.repository.JournalEntryRepository;
 import com.engineeringDigest.journalApp.repository.UserRepository;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,13 @@ public class JournalEntryService {
     @Autowired
     private UserRepository userRepository;
 
-    public void saveEntry(JournalEntry journalEntry) {
-        userRepository.findById(journalEntry.getId())
-        if (journalEntry != null) {
-            journalEntryRepository.save(journalEntry);
-        }
+    public JournalEntry createEntry(JournalEntryRequest journalEntryRequest) {
+        User user = userRepository.findById(journalEntryRequest.getUserId()).orElseThrow(() -> new RuntimeException("user not found"));
+        JournalEntry journalEntry = new JournalEntry();
+        journalEntry.setContent(journalEntryRequest.getContent());
+        journalEntry.setTitle(journalEntryRequest.getTitle());
+        journalEntry.setUser(user);
+        return journalEntryRepository.save(journalEntry);
     }
 
     public List<JournalEntry> getAll() {
@@ -40,6 +43,5 @@ public class JournalEntryService {
     public void deleteById(Long id) {
             journalEntryRepository.deleteById(id);
     }
-
 
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 @Entity
 @Table(name="user")
 @Data
-public class UserEntity {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment in MySQL
     private Long id;

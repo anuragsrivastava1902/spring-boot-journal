@@ -1,6 +1,6 @@
 package com.engineeringDigest.journalApp.service;
 
-import com.engineeringDigest.journalApp.entity.UserEntity;
+import com.engineeringDigest.journalApp.entity.User;
 import com.engineeringDigest.journalApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,25 +19,25 @@ public class UserService {
     }
 
     // Get all users
-    public List<UserEntity> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     // Get a user by ID
-    public Optional<UserEntity> getUserById(Long id) {
+    public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
 
     // Create a new user
-    public UserEntity createUser(UserEntity userEntity) {
-        return userRepository.save(userEntity);
+    public User createUser(User user) {
+        return userRepository.save(user);
     }
 
     // Update an existing user
-    public UserEntity updateUser(Long id, UserEntity userEntity) {
+    public User updateUser(Long id, User user) {
         if (userRepository.existsById(id)) {
-            userEntity.setId(id); // Ensure the correct ID is set for the update
-            return userRepository.save(userEntity);
+            user.setId(id); // Ensure the correct ID is set for the update
+            return userRepository.save(user);
         } else {
             throw new RuntimeException("User not found with id " + id);
         }
