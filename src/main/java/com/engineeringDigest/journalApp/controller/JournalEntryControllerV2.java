@@ -25,14 +25,14 @@ public class JournalEntryControllerV2 {
         return journalEntryService.getAll();
     }
 
-    /*@GetMapping("/{myid}")
+    @GetMapping("/{myid}")
     public ResponseEntity<JournalEntry> getById(@PathVariable Long myid){
         Optional<JournalEntry> j = journalEntryService.getById(myid);
         if(j.isPresent()){
             return new ResponseEntity<>(j.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }*/
+    }
 
     /*@GetMapping("/")
     public ResponseEntity<String> throwError(){
@@ -51,14 +51,14 @@ public class JournalEntryControllerV2 {
         }
     }
 
-    /*@DeleteMapping("/{myId}")
-    public ResponseEntity<?> deleteEntryById(@PathVariable ObjectId myId){
+    @DeleteMapping("/{myId}")
+    public ResponseEntity<?> deleteEntryById(@PathVariable Long myId){
         journalEntryService.deleteById(myId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }*/
+    }
 
     /*@PutMapping("/{myId}")
-    public JournalEntry updateById(@PathVariable ObjectId myId, @RequestBody JournalEntry newEntry){
+    public JournalEntry updateById(@PathVariable Long myId, @RequestBody JournalEntry newEntry){
         JournalEntry old = journalEntryService.getById(myId).orElse(null);
         if(old!=null){
             old.setTitle(newEntry.getTitle()!=null && !newEntry.getTitle().isEmpty() ? newEntry.getTitle() : old.getTitle());

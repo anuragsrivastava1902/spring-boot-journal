@@ -3,6 +3,7 @@ package com.engineeringDigest.journalApp.service;
 
 import com.engineeringDigest.journalApp.entity.JournalEntry;
 import com.engineeringDigest.journalApp.repository.JournalEntryRepository;
+import com.engineeringDigest.journalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,11 @@ public class JournalEntryService {
     @Autowired
     private JournalEntryRepository journalEntryRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public void saveEntry(JournalEntry journalEntry) {
+        userRepository.findById(journalEntry.getId())
         if (journalEntry != null) {
             journalEntryRepository.save(journalEntry);
         }
@@ -28,13 +33,13 @@ public class JournalEntryService {
         return journalEntryRepository.findAll();
     }
 
-    /*public Optional<JournalEntry> getById(ObjectId myid) {
+    public Optional<JournalEntry> getById(Long myid) {
       return journalEntryRepository.findById(myid);
     }
 
-    public void deleteById(ObjectId id) {
+    public void deleteById(Long id) {
             journalEntryRepository.deleteById(id);
-    }*/
+    }
 
 
 }
