@@ -13,7 +13,7 @@ import java.util.Optional;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("journal")
 public class JournalEntryControllerV2 {
 
@@ -21,14 +21,14 @@ public class JournalEntryControllerV2 {
     private JournalEntryService journalEntryService;
 
     @GetMapping
-    public List<JournalEntry> getAll(){
+    public List<JournalEntry> getAll() {
         return journalEntryService.getAll();
     }
 
     @GetMapping("/{myid}")
-    public ResponseEntity<JournalEntry> getById(@PathVariable Long myid){
+    public ResponseEntity<JournalEntry> getById(@PathVariable Long myid) {
         Optional<JournalEntry> j = journalEntryService.getById(myid);
-        if(j.isPresent()){
+        if (j.isPresent()) {
             return new ResponseEntity<>(j.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -41,18 +41,38 @@ public class JournalEntryControllerV2 {
 
 
     @PostMapping
-    public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntryRequest request){
-      //  myEntry.setDate(LocalDateTime.now());
+    public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntryRequest request) {
+        //  myEntry.setDate(LocalDateTime.now());
         try {
-            JournalEntry myEntry= journalEntryService.createEntry(request);
+            JournalEntry myEntry = journalEntryService.createEntry(request);
             return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
+    //create an entry by form data
+    @PostMapping("/createEntry")
+    public ResponseEntity<JournalEntry> createEntry(
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("userId") Long userId) {
+        try {
+            // Process the form data
+            JournalEntryRequest request = new JournalEntryRequest();
+            request.setTitle(title);
+            request.setContent(content);
+            request.setUserId(userId);
+            JournalEntry myEntry = journalEntryService.createEntry(request);
+            return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
+        } catch (Exception e) {
+            // Handle exceptions
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{myId}")
-    public ResponseEntity<?> deleteEntryById(@PathVariable Long myId){
+    public ResponseEntity<?> deleteEntryById(@PathVariable Long myId) {
         journalEntryService.deleteById(myId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

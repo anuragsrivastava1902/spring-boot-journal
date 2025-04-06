@@ -3,9 +3,11 @@ package com.engineeringDigest.journalApp.service;
 import com.engineeringDigest.journalApp.entity.User;
 import com.engineeringDigest.journalApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,8 +21,9 @@ public class UserService {
     }
 
     // Get all users
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Page<User> getAllUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);  // Page is 0-based.
+        return userRepository.findAll(pageable);
     }
 
     // Get a user by ID

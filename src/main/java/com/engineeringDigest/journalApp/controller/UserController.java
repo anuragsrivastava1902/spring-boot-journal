@@ -4,6 +4,7 @@ import com.engineeringDigest.journalApp.entity.User;
 import com.engineeringDigest.journalApp.entity.User;
 import com.engineeringDigest.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final UserService userService;
@@ -23,11 +26,11 @@ public class UserController {
     }
 
     // Get all users
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
-    }
+    }*/
 
     // Get a user by ID
     @GetMapping("/{id}")
@@ -64,5 +67,10 @@ public class UserController {
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping
+    public Page<User> getUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return userService.getAllUsers(page, size);
     }
 }

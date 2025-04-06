@@ -8,9 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/comments")
 public class CommentController {
+
     @Autowired
     CommentService commentService;
 
@@ -20,8 +24,8 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public void showCommentByEntryId(@RequestParam Long entryId){
-
+    @GetMapping("/{entryId}")
+    public ResponseEntity<List<Comment>> showCommentByEntryId(@PathVariable Long entryId){
+        return new ResponseEntity<>(commentService.getAllCommentsByEntry(entryId),HttpStatus.OK);
     }
 }

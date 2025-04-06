@@ -10,6 +10,8 @@ import com.engineeringDigest.journalApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentService {
 
@@ -28,5 +30,9 @@ public class CommentService {
         comment.setUser(user);
         comment.setJournalEntry(journalEntry);
         return commentRepository.save(comment);
+    }
+
+    public List<Comment> getAllCommentsByEntry(Long entryId) {
+        return commentRepository.findCommentsByEntryId(entryId);
     }
 }
